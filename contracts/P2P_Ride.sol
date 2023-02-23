@@ -10,6 +10,8 @@ contract P2PRide {
     }
     uint256 price;
 
+    mapping(address => uint) public ridePrice;
+
     Ride[] public rides;
 
     function bookRide(
