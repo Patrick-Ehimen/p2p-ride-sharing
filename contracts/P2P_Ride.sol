@@ -20,4 +20,10 @@ contract P2PRide {
     ) public {
         rides.push(Ride(msg.sender, _destination, _pickupLocation, false));
     }
+
+    function cancelRide()public{}
+
+    function getRide()public{}
+
+    function getrides()public{}
 }
