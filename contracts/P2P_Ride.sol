@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract P2PRide {
+    address public owner;
     struct Ride {
         address passenger;
         string desination;
@@ -14,6 +15,15 @@ contract P2PRide {
 
     Ride[] public rides;
 
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only Owner can call this function");
+        _;
+    }
+
     function bookRide(
         string memory _destination,
         string memory _pickupLocation
@@ -21,9 +31,19 @@ contract P2PRide {
         rides.push(Ride(msg.sender, _destination, _pickupLocation, false));
     }
 
-    function cancelRide()public{}
+    function cancelRide() public {}
 
-    function getRide()public{}
+    function getRide() public {}
 
-    function getrides()public{}
+    function getRides() public {}
+
+    function acceptRide() public {}
+
+    function startRide() public {}
+
+    function endRide() public {}
+
+    function rateRide() public {}
+
+    function getDriverRides() public onlyOwner {}
 }
