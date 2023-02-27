@@ -31,6 +31,8 @@ contract P2PRide {
         rides.push(Ride(msg.sender, _destination, _pickupLocation, false));
     }
 
+    function getRidePrice() public {}
+
     function cancelRide() public {}
 
     function getRide() public {}
@@ -46,4 +48,12 @@ contract P2PRide {
     function rateRide() public {}
 
     function getDriverRides() public onlyOwner {}
+
+    function getUserRides() public onlyOwner {}
+
+    function getCompletedRides() public {}
+
+    function getDriverStats() public {}
+
+    function getUserStats() public {}
 }
