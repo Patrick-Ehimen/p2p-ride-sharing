@@ -1,17 +1,22 @@
 // SPDX-License-Identifier: MIT
+import "./drivers.sol";
+
 pragma solidity ^0.8.0;
 
-contract P2PRide {
+contract P2PRide is Driver {
     address public owner;
     struct Ride {
         address passenger;
         string desination;
         string pickupLocation;
         bool isComplete;
+        bool booked;
     }
     uint256 price;
 
     mapping(address => uint) public ridePrice;
+    mapping(address => Ride) public ride;
+    //mapping(uint => )
 
     Ride[] public rides;
 
@@ -28,7 +33,9 @@ contract P2PRide {
         string memory _destination,
         string memory _pickupLocation
     ) public {
-        rides.push(Ride(msg.sender, _destination, _pickupLocation, false));
+        rides.push(
+            Ride(msg.sender, _destination, _pickupLocation, false, false)
+        );
     }
 
     function getRidePrice() public {}
