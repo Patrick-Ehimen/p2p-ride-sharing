@@ -12,11 +12,7 @@ contract P2PRide is Driver {
         bool isComplete;
         bool booked;
     }
-    uint256 price;
-
-    mapping(address => uint) public ridePrice;
-    mapping(address => Ride) public ride;
-    mapping(uint => Ride) public ridesId; // rideId => Ride
+    uint256 price; // rideId => Ride
 
     Ride[] public rides;
 
@@ -43,7 +39,6 @@ contract P2PRide is Driver {
         newRide.desination = _destination;
         newRide.pickupLocation = _pickupLocation;
         newRide.isComplete = false;
-        ridesId[rides.length] = newRide;
     }
 
     function getRidePrice() public {}
