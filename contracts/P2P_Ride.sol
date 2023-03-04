@@ -16,7 +16,7 @@ contract P2PRide is Driver {
 
     mapping(address => uint) public ridePrice;
     mapping(address => Ride) public ride;
-    //mapping(uint => )
+    mapping(uint => Ride) public ridesId; // rideId => Ride
 
     Ride[] public rides;
 
@@ -36,6 +36,14 @@ contract P2PRide is Driver {
         rides.push(
             Ride(msg.sender, _destination, _pickupLocation, false, false)
         );
+        Ride memory newRide = rides.push();
+        require(newRide.booked == false, "Ride already booked");
+        newRide.booked = true;
+        newRide.passenger = msg.sender;
+        newRide.desination = _destination;
+        newRide.pickupLocation = _pickupLocation;
+        newRide.isComplete = false;
+        ridesId[rides.length] = newRide;
     }
 
     function getRidePrice() public {}
