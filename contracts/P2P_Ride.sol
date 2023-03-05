@@ -38,13 +38,26 @@ contract P2PRide is Driver {
         require(msg.sender != owner, "Owner cannot book a ride");
         require(msg.value == price, "Insufficient funds");
 
-        // Ride memory newRide = rides.push();
-        // require(newRide.booked == false, "Ride already booked");
-        // newRide.booked = true;
-        // newRide.passenger = msg.sender;
-        // newRide.desination = _destination;
-        // newRide.pickupLocation = _pickupLocation;
-        // newRide.isComplete = false;
+        bool alreadyBooked = false;
+
+        for (uint256 i = 0; i < rides.length; i++) {
+            if (rides[i].booked == true) {
+                alreadyBooked = true;
+                break;
+            }
+        }
+
+        require(!alreadyBooked, "Ride already booked.");
+
+        Ride memory newRide = Ride({
+            passenger: msg.sender,
+            destination: _destination,
+            pickupLocation: _pickupLocation,
+            isComplete: false,
+            booked: true
+        });
+
+        rides.push(newRide);
 
         emit RideBooked(msg.sender, _destination, _pickupLocation);
     }
