@@ -41,7 +41,7 @@ contract P2PRide is Driver {
         bool alreadyBooked = false;
 
         for (uint256 i = 0; i < rides.length; i++) {
-            if (rides[i].booked == true) {
+            if (rides[i].booked == true && rides[i].passenger == msg.sender) {
                 alreadyBooked = true;
                 break;
             }
