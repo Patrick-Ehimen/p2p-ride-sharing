@@ -12,7 +12,8 @@ contract P2PRide is Driver {
         bool isComplete;
         bool booked;
     }
-    uint256 price; // rideId => Ride
+    uint256 public price;
+    uint public rideCount; // rideId => Ride
 
     Ride[] public rides;
 
@@ -58,6 +59,7 @@ contract P2PRide is Driver {
         });
 
         rides.push(newRide);
+        rideCount++;
 
         emit RideBooked(msg.sender, _destination, _pickupLocation);
     }
