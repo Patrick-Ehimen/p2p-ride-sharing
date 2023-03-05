@@ -15,7 +15,7 @@ contract P2PRide is Driver {
     uint256 public price;
     uint public rideCount;
 
-    mapping(address => Ride) myRide;
+    mapping(address => uint256) public currentRides;
 
     Ride[] public rides;
 
@@ -71,10 +71,20 @@ contract P2PRide is Driver {
     function cancelRide() public {
         require(msg.sender != owner, "Owner cannot cancel a ride");
         require(rideCount > 0, "No rides to cancel");
-        require(
-            msg.sender == rides[rideCount - 1].passenger,
-            "You cannot cancel this ride"
-        );
+
+        uint rideIndex = currentRides[msg.sender];
+        Ride memory ride = rides[rideIndex];
+        require(msg.sender == ride.passenger, "You cannot cancel this ride");
+        //require that ride cannot be cancelled if it has been accepted by a driver
+        require(!ride.isComplete, "Ride already completed");
+
+        payable(msg.sender).transfer(price);
+
+        delete currentRides[msg.sender];
+        delete rides[rideIndex - 1];
+
+        rideIndex = rides.length - 1;
+        rides.pop();
 
         for (uint256 i = 0; i < rides.length; i++) {
             if (rides[i].booked == true && rides[i].passenger == msg.sender) {
