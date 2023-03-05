@@ -13,7 +13,9 @@ contract P2PRide is Driver {
         bool booked;
     }
     uint256 public price;
-    uint public rideCount; // rideId => Ride
+    uint public rideCount;
+
+    mapping(address => Ride) myRide;
 
     Ride[] public rides;
 
@@ -66,9 +68,24 @@ contract P2PRide is Driver {
 
     function getRidePrice() public {}
 
-    function cancelRide() public {}
+    function cancelRide() public {
+        require(msg.sender != owner, "Owner cannot cancel a ride");
+        require(rideCount > 0, "No rides to cancel");
+        require(
+            msg.sender == rides[rideCount - 1].passenger,
+            "You cannot cancel this ride"
+        );
 
-    function getRide() public {}
+        for (uint256 i = 0; i < rides.length; i++) {
+            if (rides[i].booked == true && rides[i].passenger == msg.sender) {
+                rides[i].booked = false;
+                break;
+            }
+        }
+        rideCount--;
+    }
+
+    function updateRide() public {}
 
     function getRides() public {}
 
