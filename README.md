@@ -1,13 +1,19 @@
-# Sample Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+# P2PRide
+P2PRide is a smart contract that enables users to book rides with drivers. It is written in Solidity and runs on the Ethereum blockchain. 
 
-Try running some of the following tasks:
+## Features
+* Book rides with drivers 
+* Set ride price 
+* Cancel rides 
+* Update rides 
+* Accept rides 
+* Start and end rides 
+* Rate rides 
+* Get driver and user ride stats 
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+## Usage 
+To use P2PRide, users must first book a ride by providing their destination and pickup location. They must also provide the required payment for the ride. Once the ride is booked, it can be cancelled, updated, accepted, started, ended, or rated by either the user or the driver. The contract also provides functions to get driver and user ride stats.  
+
+ ## License 
+P2PRide is released under the MIT License. See [LICENSE](LICENSE) for more details.
