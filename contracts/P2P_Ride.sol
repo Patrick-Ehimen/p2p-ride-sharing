@@ -79,8 +79,8 @@ contract P2PRide is Driver {
 
         // payable(msg.sender).transfer(price);
 
-        // delete currentRides[msg.sender];
-        // delete rides[rideIndex - 1];
+        delete currentRides[msg.sender];
+        delete rides[rideIndex -1];
 
         // Iterate through the rides array to find the ride that matches the passenger
         for (uint256 i = 0; i < rides.length; i++) {
