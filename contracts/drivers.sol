@@ -7,6 +7,7 @@ pragma solidity ^0.8.0;
 contract Driver {
     uint public numOfDrivers;
     address[] public drivers;
+    uint public immutable registrationFee;
 
     struct DriverDetails {
         string name;
@@ -18,8 +19,39 @@ contract Driver {
     }
 
     mapping(address => bool) public listOfDrivers;
+    mapping(address => DriverDetails) public driversDetails;
 
+    event DriverSignup(
+        address indexed driver,
+        string name,
+        string carModel,
+        string carNumber
+    );
     event DriverAdded(address indexed driver);
+
+    constructor() {
+        registrationFee = 0.1 ether;
+    }
+
+    function driverSignup(
+        string memory _name,
+        string memory _carModel,
+        string memory _carNumber
+    ) public payable {
+        require(msg.value == registrationFee, "Registration fee not paid");
+        require(!listOfDrivers[msg.sender], "Driver already exists");
+        addDriver();
+        DriverDetails memory newDriver = DriverDetails({
+            name: _name,
+            carModel: _carModel,
+            carNumber: _carNumber,
+            rating: 0,
+            totalRides: 0,
+            totalEarnings: 0
+        });
+        driversDetails[msg.sender] = newDriver;
+        emit DriverSignup(msg.sender, _name, _carModel, _carNumber);
+    }
 
     function addDriver() internal {
         require(!listOfDrivers[msg.sender], "Driver already exists");
