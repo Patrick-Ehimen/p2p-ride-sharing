@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MIT
 
-import "./P2P_NFT.sol";
-
 pragma solidity ^0.8.0;
 
 contract Driver {
@@ -9,6 +7,7 @@ contract Driver {
     address[] public drivers;
     uint public immutable registrationFee;
     address public owner;
+    uint public balance;
 
     struct DriverDetails {
         string name;
@@ -19,7 +18,7 @@ contract Driver {
         uint256 totalEarnings;
     }
 
-    mapping(address => bool) public listOfDrivers;
+    mapping(address => bool) public driversExist;
     mapping(address => DriverDetails) public driversDetails;
 
     event DriverSignup(
@@ -35,6 +34,11 @@ contract Driver {
         owner = msg.sender;
     }
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only Owner can call this function");
+        _;
+    }
+
     function driverSignup(
         string memory _name,
         string memory _carModel,
@@ -42,7 +46,7 @@ contract Driver {
     ) public payable {
         require(msg.value == registrationFee, "Registration fee not paid");
         require(msg.sender != owner, "Owner cannot be a driver");
-        require(!listOfDrivers[msg.sender], "Driver already exists");
+        require(!driversExist[msg.sender], "Driver already exists");
         addDriver();
         DriverDetails memory newDriver = DriverDetails({
             name: _name,
@@ -52,17 +56,24 @@ contract Driver {
             totalRides: 0,
             totalEarnings: 0
         });
+        balance += msg.value;
 
         driversDetails[msg.sender] = newDriver;
         emit DriverSignup(msg.sender, _name, _carModel, _carNumber);
     }
 
     function addDriver() public {
-        require(!listOfDrivers[msg.sender], "Driver already exists");
+        require(msg.sender != owner, "Owner cannot be a driver");
+        require(!driversExist[msg.sender], "Driver already exists");
         drivers.push(msg.sender);
-        listOfDrivers[msg.sender] = true;
+        driversExist[msg.sender] = true;
         numOfDrivers++;
 
         emit DriverAdded(msg.sender);
+    }
+
+    function withdraw() public onlyOwner {
+        payable(msg.sender).transfer(balance);
+        balance = 0;
     }
 }
