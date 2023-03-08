@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
-import "./drivers.sol";
+import "./Drivers.sol";
 
 pragma solidity ^0.8.0;
 
 contract P2PRide is Driver {
-    address public owner;
     struct Ride {
         address passenger;
         string destination;
@@ -25,14 +24,9 @@ contract P2PRide is Driver {
         string pickupLocation
     );
 
-    constructor() {
-        owner = msg.sender;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only Owner can call this function");
-        _;
-    }
+    // constructor() {
+    //     owner = msg.sender;
+    // }
 
     function bookRide(
         string memory _destination,
@@ -80,7 +74,7 @@ contract P2PRide is Driver {
         // payable(msg.sender).transfer(price);
 
         delete currentRides[msg.sender];
-        delete rides[rideIndex -1];
+        delete rides[rideIndex - 1];
 
         // Iterate through the rides array to find the ride that matches the passenger
         for (uint256 i = 0; i < rides.length; i++) {
@@ -95,9 +89,10 @@ contract P2PRide is Driver {
 
     function updateRide() public {}
 
-    function getRides() public {}
-
-    function acceptRide() public {}
+    function acceptRide() public view {
+        require(msg.sender != owner, "Owner cannot accept a ride");
+        require(rideCount > 0, "No rides to accept");
+    }
 
     function startRide() public {}
 
