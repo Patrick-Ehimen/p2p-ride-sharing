@@ -15,7 +15,15 @@ contract Driver {
         uint256 totalEarnings;
     }
 
-    mapping(address => bool) public driversAddress;
+    mapping(address => bool) public listOfDrivers;
 
     event DriverAdded(address indexed driver);
+
+    function addDriver() internal {
+        require(!listOfDrivers[msg.sender], "Driver already exists");
+        drivers.push(msg.sender);
+        listOfDrivers[msg.sender] = true;
+        numOfDrivers++;
+        emit DriverAdded(msg.sender);
+    }
 }
