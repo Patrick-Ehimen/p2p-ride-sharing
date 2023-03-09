@@ -28,6 +28,7 @@ contract Driver {
         string carNumber
     );
     event DriverAdded(address indexed driver);
+    event Withdrawal(address indexed owner, uint amount);
 
     constructor() {
         registrationFee = 0.1 ether;
@@ -75,5 +76,7 @@ contract Driver {
     function withdraw() public onlyOwner {
         payable(msg.sender).transfer(balance);
         balance = 0;
+
+        emit Withdrawal(msg.sender, balance);
     }
 }
