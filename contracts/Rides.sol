@@ -11,6 +11,14 @@ contract Rides is P2PRide {
 
     function acceptRide() public {
         require(userRides[msg.sender].booked == true, "No ride booked");
+        require(driversExist(msg.sender), "No drivers");
+        require(
+            msg.sender == drivers[msg.sender].address,
+            "Driver is not the driver"
+        );
+        require(msg.sender == drivers[0].address, "Driver is not the driver");
+        require(driversDetails[msg.sender].passengerCount > 0, "No passengers");
+        require(driversDetails[]);
         require(
             userRides[msg.sender].passenger == msg.sender,
             "You cannot accept this ride"
