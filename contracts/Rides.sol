@@ -49,6 +49,4 @@ contract Rides is P2PRide {
     //     }
     //     return userRides[msg.sender];
     // }
-
-    function startRide() public {}
 }
