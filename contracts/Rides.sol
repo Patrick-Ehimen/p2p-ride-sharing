@@ -7,17 +7,20 @@ pragma solidity ^0.8.0;
 
 contract Rides is P2PRide {
     event RideAccepted(
-        address indexed passenger,
         address indexed driver,
-        block.timestamp
+        address indexed passenger,
+        uint time
     );
     event RideStarted(address indexed passenger, address indexed driver);
 
-    function acceptRide() public {
+    function acceptRide() public onlyDriver {
         require(
             rideAvailable == 0,
             "No rides currently available to be accepted."
         );
+
+        emit RideAccepted(msg.sender, owner, block.timestamp);
+        //require(driversExist[msg.sender], "Only whitelisted address can accept the ride");
 
         // require(userRides[msg.sender].booked == true, "No ride booked");
         // //require(driversExist(msg.sender), "No drivers");
@@ -43,8 +46,6 @@ contract Rides is P2PRide {
 
         // emit RideAccepted(msg.sender, owner);
     }
-
-    function cancelRide(string calldata _reason) public {}
 
     // function acceptRide() public returns(Ride memory) {
     //     require(msg.sender != owner, "Owner cannot accept a ride");
