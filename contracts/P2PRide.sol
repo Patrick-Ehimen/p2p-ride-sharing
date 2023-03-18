@@ -36,7 +36,6 @@ contract P2PRide is Driver {
     );
 
     event RideCanceled(string reason, uint time);
-
     // constructor() {
     //     owner = msg.sender;
     // }
