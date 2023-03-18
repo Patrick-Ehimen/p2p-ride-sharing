@@ -13,7 +13,7 @@ contract Rides is P2PRide {
         require(_rideId < rides.length, "Invalid ride id");
         require(driversExist[msg.sender], "Not a whitelisted driver");
         require(!rides[_rideId].isComplete, "Ride is already completed");
-        require(!rides[_rideId].booked, "Ride is already booked");
+        //require(!rides[_rideId].booked, "Ride is already booked");
         require(
             rideAvailable > 0,
             "No rides currently available to be accepted."
