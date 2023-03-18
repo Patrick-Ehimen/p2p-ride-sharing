@@ -18,10 +18,15 @@ contract Rides is P2PRide {
             rideAvailable > 0,
             "No rides currently available to be accepted."
         );
+        //things to work on
+        //1.  update the userRides mapping
+        //2.allow the drive to accept ride just 1s until ride is either canceled  or ended
 
         Ride storage ride = rides[_rideId];
         ride.booked = true;
         ride.rideStatus = RideStatus.Accepted;
+        userRides[msg.sender].rideStatus = RideStatus.Accepted;
+
         rideAvailable--;
 
         emit RideAccepted(msg.sender, _rideId, block.timestamp);
