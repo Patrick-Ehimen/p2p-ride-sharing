@@ -10,14 +10,23 @@ contract P2PRide is Driver {
         string pickupLocation;
         bool isComplete;
         bool booked;
+        RideStatus rideStatus;
     }
+
     uint256 public price;
     uint public rideCount;
 
-    mapping(address => uint256) public currentRides;
+    //mapping(address => uint256) public currentRides;
     mapping(address => Ride) public userRides;
 
     Ride[] public rides;
+
+    enum RideStatus {
+        Booked,
+        Accepted,
+        Started,
+        Completed
+    }
 
     event RideBooked(
         address indexed passenger,
@@ -52,7 +61,8 @@ contract P2PRide is Driver {
             destination: _destination,
             pickupLocation: _pickupLocation,
             isComplete: false,
-            booked: true
+            booked: true,
+            rideStatus: RideStatus.Booked
         });
 
         rides.push(newRide);
