@@ -6,59 +6,24 @@ import "./Drivers.sol";
 pragma solidity ^0.8.0;
 
 contract Rides is P2PRide {
-    event RideAccepted(
-        address indexed driver,
-        address indexed passenger,
-        uint time
-    );
+    event RideAccepted(address indexed driver, uint indexed rideId, uint time);
     event RideStarted(address indexed passenger, address indexed driver);
 
-    function acceptRide() public onlyDriver {
+    function acceptRide(uint _rideId) public onlyDriver {
+        require(_rideId < rides.length, "Invalid ride id");
+        require(driversExist[msg.sender], "Not a whitelisted driver");
+        require(!rides[_rideId].isComplete, "Ride is already completed");
+        require(!rides[_rideId].booked, "Ride is already booked");
         require(
-            rideAvailable == 0,
+            rideAvailable > 0,
             "No rides currently available to be accepted."
         );
 
-        emit RideAccepted(msg.sender, owner, block.timestamp);
-        //require(driversExist[msg.sender], "Only whitelisted address can accept the ride");
+        Ride storage ride = rides[_rideId];
+        ride.booked = true;
+        ride.rideStatus = RideStatus.Accepted;
+        rideAvailable--;
 
-        // require(userRides[msg.sender].booked == true, "No ride booked");
-        // //require(driversExist(msg.sender), "No drivers");
-        // // require(
-        // //     msg.sender == drivers[msg.sender].address,
-        // //     "Driver is not the driver"
-        // // );
-        // require(msg.sender == drivers[0].address, "Driver is not the driver");
-        // require(driversDetails[msg.sender].passengerCount > 0, "No passengers");
-        // require(driversDetails[]);
-        // require(
-        //     userRides[msg.sender].passenger == msg.sender,
-        //     "You cannot accept this ride"
-        // );
-
-        // userRides[msg.sender].booked = false;
-
-        // for (uint i = 0; i < rides.length; i++) {
-        //     if (rides[i].passenger == msg.sender) {
-        //         rides[i].booked = false;
-        //     }
-        // }
-
-        // emit RideAccepted(msg.sender, owner);
+        emit RideAccepted(msg.sender, _rideId, block.timestamp);
     }
-
-    // function acceptRide() public returns(Ride memory) {
-    //     require(msg.sender != owner, "Owner cannot accept a ride");
-    //     require(rideCount > 0, "No rides to accept");
-
-    //     // Iterate through the rides array to find the ride that matches the passenger
-    //     for (uint256 i = 0; i < rides.length; i++) {
-    //         // If the ride is booked and the passenger matches the sender, accept the ride
-    //         if (rides[i].booked == true && rides[i].passenger == msg.sender) {
-    //             rides[i].booked = false;
-    //             break;
-    //         }
-    //     }
-    //     return userRides[msg.sender];
-    // }
 }
