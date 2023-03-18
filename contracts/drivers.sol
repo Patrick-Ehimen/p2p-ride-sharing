@@ -40,6 +40,14 @@ contract Driver {
         _;
     }
 
+    modifier onlyDriver() {
+        require(
+            driversExist[msg.sender],
+            "You are not authorized to accept rides."
+        );
+        _;
+    }
+
     function driverSignup(
         string memory _name,
         string memory _carModel,
