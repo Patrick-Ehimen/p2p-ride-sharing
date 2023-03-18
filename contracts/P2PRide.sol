@@ -62,7 +62,7 @@ contract P2PRide is Driver {
         emit RideBooked(msg.sender, _destination, _pickupLocation);
     }
 
-    function getRidePrice() public {}
+    //function getRidePrice() public {}
 
     function cancelRide() public {
         require(msg.sender != owner, "Owner cannot cancel a ride");
@@ -91,19 +91,19 @@ contract P2PRide is Driver {
         //rides = removeRide(rides, userRides[msg.sender]);
     }
 
-    function updateRide() public {}
+    // function updateRide() public {}
 
-    function endRide() public {}
+    // function endRide() public {}
 
-    function rateRide() public {}
+    // function rateRide() public {}
 
-    function getDriverRides() public {}
+    // function getDriverRides() public {}
 
-    function getUserRides() public onlyOwner {}
+    // function getUserRides() public onlyOwner {}
 
-    function getCompletedRides() public {}
+    // function getCompletedRides() public {}
 
-    function getDriverStats() public {}
+    // function getDriverStats() public {}
 
-    function getUserStats() public {}
+    // function getUserStats() public {}
 }
