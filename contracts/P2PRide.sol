@@ -14,7 +14,7 @@ contract P2PRide is Driver {
     }
 
     uint256 public price;
-    uint public rideCount;
+    uint public rideAvailable;
 
     //mapping(address => uint256) public currentRides;
     mapping(address => Ride) public userRides;
@@ -31,8 +31,11 @@ contract P2PRide is Driver {
     event RideBooked(
         address indexed passenger,
         string destination,
-        string pickupLocation
+        string pickupLocation,
+        uint time
     );
+
+    event RideCanceled(string reason, uint time);
 
     // constructor() {
     //     owner = msg.sender;
@@ -66,15 +69,20 @@ contract P2PRide is Driver {
         });
 
         rides.push(newRide);
-        rideCount++;
+        rideAvailable++;
         userRides[msg.sender] = newRide;
 
-        emit RideBooked(msg.sender, _destination, _pickupLocation);
+        emit RideBooked(
+            msg.sender,
+            _destination,
+            _pickupLocation,
+            block.timestamp
+        );
     }
 
     //function getRidePrice() public {}
 
-    function cancelRide() public {
+    function cancelRide(string memory reason) public returns (string memory) {
         require(msg.sender != owner, "Owner cannot cancel a ride");
         require(userRides[msg.sender].booked == true, "No ride booked");
         require(
@@ -96,7 +104,10 @@ contract P2PRide is Driver {
             }
         }
 
-        rideCount--;
+        rideAvailable--;
+        emit RideCanceled(reason, block.timestamp);
+
+        return reason;
 
         //rides = removeRide(rides, userRides[msg.sender]);
     }
