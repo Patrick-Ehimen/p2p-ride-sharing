@@ -16,4 +16,4 @@ To use P2PRide, users must first book a ride by providing their destination and 
 
 ## License
 
-P2PRide is released under the MIT License. See [LICENSE](LICENSE) for more details.
+P2PRide is released under the MIT License.
