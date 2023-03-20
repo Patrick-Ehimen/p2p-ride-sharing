@@ -36,5 +36,20 @@ contract Rides is P2PRide {
     function startRide(uint _rideId) public onlyDriver {
         require(driversExist[msg.sender], "Not a whitelisted driver");
         require(ridesAccepted > 0, "You must start ride first.");
+
+        Ride storage ride = rides[_rideId];
+        require(ride.rideStatus == RideStatus.Accepted, "Ride is not accepted");
+        if (rides[_rideId].rideStatus == RideStatus.Accepted) {
+            rides[_rideId].rideStatus = RideStatus.Started;
+            userRides[msg.sender].rideStatus = RideStatus.Started;
+            //ridesStarted++;
+            emit RideStarted(ride.passenger, msg.sender);
+        }
+        // if(ride.rideStatus == RideStatus.Accepted){
+        //     ride.rideStatus = RideStatus.Started;
+        //     userRides[msg.sender].rideStatus = RideStatus.Started;
+        //     //ridesStarted++;
+        //     emit RideStarted(ride.passenger, msg.sender);
+        // }
     }
 }
