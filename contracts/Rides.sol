@@ -8,6 +8,7 @@ pragma solidity ^0.8.0;
 contract Rides is P2PRide {
     event RideAccepted(address indexed driver, uint indexed rideId, uint time);
     event RideStarted(address indexed passenger, address indexed driver);
+    event RideCompleted(address indexed passenger, address indexed driver);
 
     function acceptRide(uint _rideId) public onlyDriver {
         require(_rideId < rides.length, "Invalid ride id");
@@ -36,6 +37,7 @@ contract Rides is P2PRide {
     function startRide(uint _rideId) public onlyDriver {
         require(driversExist[msg.sender], "Not a whitelisted driver");
         require(ridesAccepted > 0, "You must start ride first.");
+        require(_rideId < rides.length, "Invalid ride id");
 
         Ride storage ride = rides[_rideId];
         require(ride.rideStatus == RideStatus.Accepted, "Ride is not accepted");
@@ -51,5 +53,21 @@ contract Rides is P2PRide {
         //     //ridesStarted++;
         //     emit RideStarted(ride.passenger, msg.sender);
         // }
+    }
+
+    function endRide(uint _rideId) public onlyDriver {
+        require(driversExist[msg.sender], "Not a whitelisted driver");
+        // require(ride.rideStatus == RideStatus.Started, "Ride is not started");
+        require(
+            rides[_rideId].rideStatus == RideStatus.Started,
+            "Ride is not started"
+        );
+        if (rides[_rideId].rideStatus == RideStatus.Started) {
+            rides[_rideId].rideStatus = RideStatus.Completed;
+            userRides[msg.sender].rideStatus = RideStatus.Completed;
+            rides[_rideId].isComplete = true;
+            //ridesCompleted++;
+            emit RideCompleted(rides[_rideId].passenger, msg.sender);
+        }
     }
 }
