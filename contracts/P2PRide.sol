@@ -42,6 +42,8 @@ contract P2PRide is Driver {
     //     owner = msg.sender;
     // }
 
+    function setPrice() public {}
+
     function bookRide(
         string memory _destination,
         string memory _pickupLocation
