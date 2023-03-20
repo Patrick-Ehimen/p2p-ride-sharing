@@ -116,16 +116,4 @@ contract P2PRide is Driver {
     // function updateRide() public {}
 
     // function endRide() public {}
-
-    // function rateRide() public {}
-
-    // function getDriverRides() public {}
-
-    // function getUserRides() public onlyOwner {}
-
-    // function getCompletedRides() public {}
-
-    // function getDriverStats() public {}
-
-    // function getUserStats() public {}
 }
