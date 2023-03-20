@@ -15,6 +15,7 @@ contract P2PRide is Driver {
 
     uint256 public price;
     uint public rideAvailable;
+    uint public ridesAccepted;
 
     //mapping(address => uint256) public currentRides;
     mapping(address => Ride) public userRides;
@@ -36,6 +37,7 @@ contract P2PRide is Driver {
     );
 
     event RideCanceled(string reason, uint time);
+
     // constructor() {
     //     owner = msg.sender;
     // }
