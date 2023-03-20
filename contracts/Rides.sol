@@ -28,7 +28,13 @@ contract Rides is P2PRide {
         userRides[msg.sender].rideStatus = RideStatus.Accepted;
 
         rideAvailable--;
+        ridesAccepted++;
 
         emit RideAccepted(msg.sender, _rideId, block.timestamp);
+    }
+
+    function startRide(uint _rideId) public onlyDriver {
+        require(driversExist[msg.sender], "Not a whitelisted driver");
+        require(ridesAccepted > 0, "You must start ride first.");
     }
 }
