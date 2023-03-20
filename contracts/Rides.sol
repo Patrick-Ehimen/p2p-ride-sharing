@@ -47,6 +47,7 @@ contract Rides is P2PRide {
             //ridesStarted++;
             emit RideStarted(ride.passenger, msg.sender);
         }
+        ridesAccepted--;
         // if(ride.rideStatus == RideStatus.Accepted){
         //     ride.rideStatus = RideStatus.Started;
         //     userRides[msg.sender].rideStatus = RideStatus.Started;
