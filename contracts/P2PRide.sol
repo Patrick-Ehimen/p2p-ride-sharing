@@ -92,6 +92,7 @@ contract P2PRide is Driver {
             userRides[msg.sender].passenger == msg.sender,
             "You cannot cancel this ride"
         );
+        //add a requirement to start passenger from canceling ride when it has started
 
         userRides[msg.sender].booked = false;
 
